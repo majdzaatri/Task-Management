@@ -238,16 +238,15 @@ Calendar
   font-size: 1rem;
   max-width: 700px;
   max-height: 600px;
-  margin: 0 10%;
+  margin: 15px 10%;
 } 
 
 
 @media screen and (min-width: 1550px){
   .calendar {
-    margin: 0 4rem;
+    margin: 15px 4rem;
   }
 }
-
 
 
 .calendar .header {
@@ -381,3 +380,48 @@ Calendar
   border-radius: 50%;
   position: absolute;
 }
+
+
+
+
+
+.border-none{
+  border: none;
+}
+
+.edit-button{
+  border-radius: 50%;
+  background-color: var(--clr-primary-3);
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.edit-button-icon {
+  max-width: 40px;
+  max-height: 40px;
+  top: 20%;
+  position: relative;
+}
+
+
+.title-input {
+  font-size: xxx-large;
+  text-align: center;
+  border:0;
+  border-bottom:1px solid #555;  
+  background:transparent;
+  width:100%;
+  padding:8px 0 5px 0;
+}
+
+.title-input:focus{ 
+  border:none;	
+  outline:none;
+  border-bottom:1px solid var(--clr-primary-4);	
+ }
+
+ .task-container {
+   background-color: var(--clr-primary-2);
+ }

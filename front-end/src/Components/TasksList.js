@@ -1,12 +1,14 @@
 import "../App.css";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Task from "./Task";
 import SearchBar from "./SearchBar"
 import TasksData from '../Tasks.json'
 import Sort from './Sort'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Row} from "react-bootstrap"
 
 
-const TasksList = () => {
+const TasksList = ({setSelectedTask, toggleSidebar}) => {
 
     const [selected, setSelected] = useState("")
     const [input, setInput] = useState("")
@@ -18,8 +20,9 @@ const TasksList = () => {
         setIsAsc(!isAsc);
     }
     
-    function changeColor(id) {
+    function changeColor(id,title,name,taskPriority,category,date) {
       setSelected(id);
+      setSelectedTask({id,title,name,taskPriority,category,date});
     };
 
     function custom_sort(a, b) {
@@ -35,29 +38,52 @@ const TasksList = () => {
         else
           return b.priority - a.priority;
       }
-      else {
-        //TODO: add filter by Category
+    }
+
+    function custom_filter(val) {
+      if(input == "" && categorySelected.length <=0) {
+        return val
+      } else if(categorySelected.length > 0) {
+        if(input == ""){
+          for(var i=0; i<categorySelected.length;i++){
+            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase())){
+              return val
+            }
+          }
+        } else {
+          for(var i=0; i<categorySelected.length;i++){
+            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.name.toLowerCase().includes(input.toLowerCase()))
+              return val
+          }
+        }
+      } else if (val.name.toLowerCase().includes(input.toLowerCase())) {
+        return val
       }
     }
 
     return (
       <div className="task-list">
-        <Sort choosenSort={choosenSort} setChoosenSort={setChoosenSort} isAsc={isAsc} changeOption={changeOption} categorySelected={categorySelected} setCategorySelected={setCategorySelected}/>
-        <SearchBar input={input} onChange={setInput}/>
+        <Sort 
+          choosenSort={choosenSort}
+          setChoosenSort={setChoosenSort}
+          isAsc={isAsc}
+          changeOption={changeOption}
+          categorySelected={categorySelected}
+          setCategorySelected={setCategorySelected}
+          />
+
+        <Row className="mx-3 mt-1">
+          <SearchBar input={input}  onChange={setInput}/>
+        </Row>
         <div style={{overflow: "scroll", height: "100%"}}>
 
-        {TasksData.filter((val) => {
-          if(input == "") {
-            return val
-          } else if (val.name.toLowerCase().includes(input.toLowerCase())) {
-            return val
-          }
-        }).sort(custom_sort).map(({ name, id, title, priority, category, date }) => (
+        {TasksData.filter(custom_filter).sort(custom_sort).map(({ name, id, title, priority, category, date }) => (
           <Task
             key={id}
             id={id}
             selected={selected}
             changeColor={changeColor}
+            toggleSidebar={toggleSidebar}
             name={name}
             title={title}
             taskPriority={priority}

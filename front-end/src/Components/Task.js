@@ -22,7 +22,9 @@ export default function Task({
 
   return (
     <div style={{backgroundColor: category ,borderRadius: 10}}>
-      <div className="block" onClick={() => changeColor(id)}>
+      <div className="block" onClick={() => {
+        changeColor(id,title,name,taskPriority,category,date);
+      }}>
         <div
           className={`task ${
             selected === id ? "selectedTask" : "unselectedTask"
@@ -31,8 +33,8 @@ export default function Task({
           style={{ color: selected === id ? "" : "" }}
         >
           <h1>{title}</h1>
-          <h3>{name}</h3>
-          <div>{stars}    {date}</div>
+          {/* <h3>{name}</h3> */}
+          <div>{stars}<br></br> {date}</div>
         </div>
       </div>
     </div>

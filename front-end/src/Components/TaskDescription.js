@@ -1,99 +1,60 @@
-import React, { Component } from "react";
-import axios from "axios";
-import { Button, Form } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.css"
+// import React from "react";
+// import {Form , Row, Col} from "react-bootstrap";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "react-datepicker/dist/react-datepicker.css";
+// import Rating from "react-rating";
+// import "../App.css"
 
 
-export default class TaskDescription extends Component {
-  constructor(props) {
-    super(props);
-        this.state =
-         {
-      description: "",
-      status: "",
-      dueOn: "",
-      priority: "",
-      category: "",
-    };
-      axios.get('/get_task_detail')
-        .then((response) => {
-          const data = response.data;
-          console.log(data[0]._id)
-          this.setState({ 
-            description: data[0].description,
-            status: data[0].status,
-            dueOn: data[0].dueOn,
-            priority: data[0].priority,
-            category: data[0].category,
-                    });
-          console.log('Data has been received!!');
-        })
-        .catch(() => {
-          alert('Error retrieving data!!!');
-        });
-  }
+// const TaskDescription = ({selectedTask}) => {
+//   console.log(selectedTask)
+//   return (
+//       <Form className="p-5">
+//       <Form.Group controlId="exampleForm.ControlInput1">
+//         <div className="text-center">
+//             {selectedTask.title}
+//         </div>
+//       </Form.Group>
 
-  editDetails = () => {
-    
-  };
+//       <Form.Group>
+//         <Form.Label placeholder="task Title" className="font-weight-bold">
+//           Descriptions:
+//         </Form.Label>
+//         <Form.Control as="textarea" defaultValue="None" rows={3}>
+//           {selectedTask.name}
+//         </Form.Control>
+//       </Form.Group>
 
-  render() {
-   
-        return (
-      <Form className="p-5">
-        <Form.Group controlId="exampleForm.ControlInput1">
-          <div className="text-center">
-            <Form.Label
-              className=""
-              placeholder="task Title"
-              className="font-weight-bold"
-            >
-              LABEL
-            </Form.Label>
-          </div>
-        </Form.Group>
+//       <Row className="my-5  mx-0 p-0">
+//         <Col className="pl-0">
+//         <Form.Label className="font-weight-bold d-block">Status:</Form.Label>
+//         <Form.Label className="font-weight-bold d-block ml-3">
+//           {/* {selectedTask.date} */}
+//         </Form.Label>
+//         </Col>
+//         <Col className="pr-0">
+//         <Form.Label className="font-weight-bold">Due on:</Form.Label>
+//         <Form.Label className="font-weight-bold d-block ml-3">
+//           {/* {selectedTask.date} */}
+//         </Form.Label>
+//         </Col>
+//       </Row>
 
-        <Button onClick={this.editDetails} variant="primary" type="submit" >
-          Edit
-        </Button>
-        <Form.Group>
-          <Form.Label placeholder="task Title" className="font-weight-bold">
-            Descriptions:
-          </Form.Label>
-          <Form.Control as="label" rows={3} className="border-none"> 
-            {this.state.description}
-          </Form.Control>
-        </Form.Group>
+//       <Form.Group controlId="exampleForm.ControlTextarea1">
+//         <Form.Label className="font-weight-bold d-block">Priority:</Form.Label>
+//         {/* <Rating fractions="2" readonly="true" initialRating={selectedTask.priority} /> */}
+//       </Form.Group>
 
-        <Form.Group controlId="exampleForm.ControlTextarea1">
-          <Form.Label className="font-weight-bold">Status:</Form.Label>
-          <Form.Control as="label" rows={3} className="border-none">
-            {this.state.status}
-          </Form.Control>
-        </Form.Group>
+//       <Form.Group controlId="exampleForm.ControlTextarea1">
+//         <Form.Label className="font-weight-bold">Category:</Form.Label>
+//         {/* <Row className="mx-0 w-25" style={{backgroundColor: selectedTask.category, color: "white"}}> */}
+//           {/* {selectedTask.category} */}
+//         {/* </Row> */}
+//       </Form.Group>
+//     </Form>
+//   );
 
-        <Form.Group controlId="exampleForm.ControlTextarea1">
-          <Form.Label className="font-weight-bold">Due on:</Form.Label>
-          <Form.Control as="label" rows={3} className="border-none">
-            {this.state.dueOn}
-          </Form.Control>
-        </Form.Group>
+// }
 
-        <Form.Group controlId="exampleForm.ControlTextarea1">
-          <Form.Label className="font-weight-bold">Priority:</Form.Label>
-          <Form.Control as="label" rows={3} className="border-none">
-            {this.state.priority}
-          </Form.Control>
-        </Form.Group>
 
-        <Form.Group controlId="exampleForm.ControlTextarea1">
-          <Form.Label className="font-weight-bold">Category:</Form.Label>
-          <Form.Control as="label" rows={3} className="border-none">
-            {this.state.category}
-          </Form.Control>
-        </Form.Group>
-      </Form>
-    );
-  }
-}
+// export default TaskDescription

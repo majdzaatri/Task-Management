@@ -2,7 +2,7 @@ import React from "react"
 import Sidebar from "./Sidebar"
 import Navbar from "./Navbar"
 
-const Layout = ({ children}) => {
+const Layout = ({children, selectedTask}) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -14,7 +14,7 @@ const Layout = ({ children}) => {
     return (
         <>
             <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-            <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
+            <Sidebar isOpen={isOpen} selectedTask={selectedTask} toggleSidebar={toggleSidebar} />
             {children}
         </>
     )

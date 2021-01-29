@@ -10,7 +10,6 @@ export default function buildCalendar(value) {
           .fill(0)
           .map(() => day.add(1, "day").clone())
       );
-      console.log(calendar)
     }
   
     if (calendar.length < 6) {

@@ -29,24 +29,24 @@ const tasks = new mongoose.Schema ({
 const User = mongoose.model("User", users);
 const Task = mongoose.model("Task", tasks);
 
-// const user = new User ({
-//   firstName: "Fadi",
-//   lastName: "Habeeb",
-//   email: "fadi@fafa",
-//   password: "123"
-// }); 
+const user = new User ({
+  firstName: "Fadi",
+  lastName: "Habeeb",
+  email: "fadi@fafa",
+  password: "123"
+}); 
 
 
-// const task = new Task ({
-//   description: "Finish the first 3 exams",
-//   status: "new",
-//   dueOn: "jun, 21, 2020 12:00:00 AM",
-//   priority: "*******",
-//   category: "art",
-// }); 
+const task = new Task ({
+  description: "Finish the first 3 exams",
+  status: "new",
+  dueOn: "jun, 21, 2020 12:00:00 AM",
+  priority: "*******",
+  category: "art",
+}); 
 
-// user.save()
-// task.save()
+user.save()
+task.save()
 
 
 User.find(function(err, users){

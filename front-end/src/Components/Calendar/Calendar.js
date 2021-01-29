@@ -43,13 +43,13 @@ const arr = [
       <div className="body">
         <div className="day-names">
           {
-            ["s", "m", "t", "w", "t", "f", "s"].map((d) => <div className="week">{d}</div>)
+            ["s", "m", "t", "w", "t", "f", "s"].map((d, index) => <div key={index} className="week">{d}</div>)
           }
         </div>
         {calendar.map((week, index) => (
           <div key={index}>
             {week.map((day) => (
-              <div className="day" onClick={() => setValue(day)}>
+              <div key={day} className="day" onClick={() => setValue(day)}>
               {gotEvent(day,arr)?
                 <div className={gotEvent(day, arr)}></div>:null
               }        
