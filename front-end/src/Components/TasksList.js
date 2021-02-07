@@ -2,10 +2,12 @@ import "../App.css";
 import React, {useEffect, useState} from "react";
 import Task from "./Task";
 import SearchBar from "./SearchBar"
-import TasksData from '../Tasks.json'
+// import TasksData from '../Tasks.json'
 import Sort from './Sort'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row} from "react-bootstrap"
+import axios from 'axios'
+
 
 
 const TasksList = ({setSelectedTask, toggleSidebar}) => {
@@ -19,7 +21,24 @@ const TasksList = ({setSelectedTask, toggleSidebar}) => {
     const changeOption = () => {
         setIsAsc(!isAsc);
     }
+
     
+const [TasksData, setTasksData] = useState([])
+
+const getTasks = () => {
+axios.get('/get_task_detail')
+.then((response) => {
+  setTasksData(response.data)
+}).catch(() => {
+  alert('Error retrieving data!!!');
+});
+}
+
+useEffect(() =>{
+  getTasks();
+}, [])
+
+
     function changeColor(id,title,name,taskPriority,category,date) {
       setSelected(id);
       setSelectedTask({id,title,name,taskPriority,category,date});

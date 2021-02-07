@@ -1,7 +1,7 @@
 import './App.css';
 import Layout from "./Components/Layout"
-import React, {useState} from "react"
-import TasksData from './Tasks.json'
+import React, {useState, useEffect} from "react"
+import TasksData2 from './Tasks.json'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TasksList from './Components/TasksList'
 import {Row, Col, Button} from 'react-bootstrap'
@@ -9,18 +9,41 @@ import Modal from "react-bootstrap/Modal";
 import Calendar from './Components/Calendar/Calendar'
 import { FaTimes, FaEdit, FaPlus} from 'react-icons/fa';
 import EditableTaskDescription from "./Components/EditableTaskDescription"
-
+import axios from 'axios'
 
 function App() {
 
+  const [TasksData, setTasksData] = useState([])
+
+  const getTasks = () => {
+  axios.get('/get_task_detail')
+  .then((response) => {
+    setTasksData(response.data)
+  }).catch(() => {
+    alert('Error retrieving data!!!');
+  });
+  }
+
+  useEffect(() =>{
+    getTasks();
+  }, [])
+  
+
+console.log(TasksData[0])
+
   const [isEdit, setIsEdit] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(TasksData[0])
+  const [selectedTask, setSelectedTask] = useState(TasksData2[0])
 
   const toggleEdit = () => setIsEdit(!isEdit)
 
   const hideModal = () => setIsAdd(false)
   const showModal = () => setIsAdd(true)
+
+
+      
+
+
 
   return (
     <div>
