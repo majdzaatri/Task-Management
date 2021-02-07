@@ -8,53 +8,112 @@ const router = express.Router();
 mongoose.connect('mongodb://localhost:27017/todolist', {useNewUrlParser: true, useUnifiedTopology: true});
 const app = express();
 const port = 8000;
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
 
+// const users = new mongoose.Schema ({
+//   firstName : String, 
+//   lastName : String, 
+//   email : String,
+//   password : String
 
-const users = new mongoose.Schema ({
-  firstName : String, 
-  lastName : String, 
-  email : String,
-  password : String
-}); 
+// }); 
 
 const tasks = new mongoose.Schema ({
-  description: String,
-  status: String,
-  dueOn: String,
+  id: Number, 
+  name: String,
+  title: String,
   priority: String,
   category: String,
+  date: String,
+  status: String
 }); 
 
 
-const User = mongoose.model("User", users);
+
+
+// const User = mongoose.model("User", users);
 const Task = mongoose.model("Task", tasks);
 
-const user = new User ({
-  firstName: "Fadi",
-  lastName: "Habeeb",
-  email: "fadi@fafa",
-  password: "123"
-}); 
+// const user = new User ({
+//   firstName: "Fadi",
+//   lastName: "Habeeb",
+//   email: "fadi@fafa",
+//   password: "123"
+// }); 
+
+// const tasksArr =   [
+//   {
+//       "id": 1,
+//       "name": "Do laundry",
+//       "title": "Task 1",
+//       "priority": "5",
+//       "category": "red",
+//       "date": "2021-03-22"
+//   },
+//   {
+//       "id": 2,
+//       "name": "Buy milk",
+//       "title": "Task 2",
+//       "priority": "2",
+//       "category": "red",
+//       "date": "2021-03-22"
+//   },
+//   {
+//       "id": 3,
+//       "name": "task",
+//       "title": "Task 3",
+//       "priority": "4",
+//       "category": "blue",
+//       "date": "2022-01-22"
+//   },
+//   { 
+//       "id": 4,
+//       "name": "Test",
+//       "title": "Test",
+//       "priority": "1",
+//       "category": "green",
+//       "date": "2020-03-22"
+//   },
+//   { 
+//       "id": 5,
+//       "name": "Test",
+//       "title": "Test",
+//       "priority": "1",
+//       "category": "green",
+//       "date": "2020-03-22"
+//   },
+//   { 
+//       "id": 6,
+//       "name": "Test",
+//       "title": "Test",
+//       "priority": "1",
+//       "category": "green",
+//       "date": "2020-03-22"
+//   },
+//   { 
+//       "id": 7,
+//       "name": "Test",
+//       "title": "Test",
+//       "priority": "1",
+//       "category": "green",
+//       "date": "2020-03-22"
+//   }
+// ]
+
+// Task.insertMany(tasksArr, function(error, docs) {console.log(error)});
 
 
-const task = new Task ({
-  description: "Finish the first 3 exams",
-  status: "new",
-  dueOn: "jun, 21, 2020 12:00:00 AM",
-  priority: "*******",
-  category: "art",
-}); 
-
-user.save()
-task.save()
+// user.save()
+// task.save()
 
 
-User.find(function(err, users){
-if(err)
-  console.log(err)
-  else {
-  }
-})
+// User.find(function(err, users){
+// if(err)
+//   console.log(err)
+//   else {
+//   }
+// })
 
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -70,7 +129,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 app.post('/save_data', urlencodedParser,(req,res) => {
-    Task.updateOne({_id: req.body.id}, {
+    Task.create({_id: req.body.id}, {
     description: req.body.description,
   status: req.body.status,
   dueOn: req.body.dueOn,
@@ -87,17 +146,46 @@ app.post('/save_data', urlencodedParser,(req,res) => {
 })
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+app.post('/add_task',(req,res) => {
+  Task.create(req.body,function(error, docs){
+  if (error){
+    console.log(error)
+  }else {
+    console.log(docs)
+  }
+  res.send("saved")
+})
+})
+
+
+
+
+app.post('/update_task',(req,res) => {
+  console.log(req.body)
+  Task.updateOne({id: req.body.id}, req.body ,function(error, docs){
+  if (error){
+    console.log(error)
+  }else {
+    console.log(docs)
+  }
+  res.send("saved")
+})
+})
+
+
+
 
 app.get('/edit_page', (req, res) => {
   res.redirect("/TaskDescription")
+  console.log('d')
+
 });
   
 
 app.get('/get_task', (req, res) => {
   res.send()
+  console.log('d')
+
 });
 
 
@@ -106,7 +194,7 @@ app.get('/get_task_detail', (req, res) => {
     if(err)
       console.log(err)
       else {
-        // console.log(JSON.stringify(users))
+        console.log("Data has been sent successfuly")
         res.send(JSON.stringify(users))
       }
     })
