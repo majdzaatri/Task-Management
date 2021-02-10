@@ -25,6 +25,7 @@ const tasks = new mongoose.Schema ({
   title: String,
   priority: String,
   category: String,
+  categoryDetails: String,
   date: String,
   status: String
 }); 
@@ -34,98 +35,9 @@ const tasks = new mongoose.Schema ({
 
 // const User = mongoose.model("User", users);
 const Task = mongoose.model("Task", tasks);
-
-// const user = new User ({
-//   firstName: "Fadi",
-//   lastName: "Habeeb",
-//   email: "fadi@fafa",
-//   password: "123"
-// }); 
-
-// const tasksArr =   [
-//   {
-//       "id": 1,
-//       "name": "Do laundry",
-//       "title": "Task 1",
-//       "priority": "5",
-//       "category": "red",
-//       "date": "2021-03-22"
-//   },
-//   {
-//       "id": 2,
-//       "name": "Buy milk",
-//       "title": "Task 2",
-//       "priority": "2",
-//       "category": "red",
-//       "date": "2021-03-22"
-//   },
-//   {
-//       "id": 3,
-//       "name": "task",
-//       "title": "Task 3",
-//       "priority": "4",
-//       "category": "blue",
-//       "date": "2022-01-22"
-//   },
-//   { 
-//       "id": 4,
-//       "name": "Test",
-//       "title": "Test",
-//       "priority": "1",
-//       "category": "green",
-//       "date": "2020-03-22"
-//   },
-//   { 
-//       "id": 5,
-//       "name": "Test",
-//       "title": "Test",
-//       "priority": "1",
-//       "category": "green",
-//       "date": "2020-03-22"
-//   },
-//   { 
-//       "id": 6,
-//       "name": "Test",
-//       "title": "Test",
-//       "priority": "1",
-//       "category": "green",
-//       "date": "2020-03-22"
-//   },
-//   { 
-//       "id": 7,
-//       "name": "Test",
-//       "title": "Test",
-//       "priority": "1",
-//       "category": "green",
-//       "date": "2020-03-22"
-//   }
-// ]
-
-// Task.insertMany(tasksArr, function(error, docs) {console.log(error)});
-
-
-// user.save()
-// task.save()
-
-
-// User.find(function(err, users){
-// if(err)
-//   console.log(err)
-//   else {
-//   }
-// })
-
-
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
-
-
-// router.route('/save_data').post((req,res) => {
-//   console.log("Ffff")
-//   console.log(req.body.description)
-
-// })
 
 
 app.post('/save_data', urlencodedParser,(req,res) => {
@@ -147,6 +59,7 @@ app.post('/save_data', urlencodedParser,(req,res) => {
 
 
 app.post('/add_task',(req,res) => {
+  console.log(req.body)
   Task.create(req.body,function(error, docs){
   if (error){
     console.log(error)

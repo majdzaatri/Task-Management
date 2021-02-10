@@ -4,6 +4,7 @@ import moment from "moment";
 import buildCalendar from "./build";
 import dayStyles, {gotEvent} from "./styles";
 import CalendarHeader from "./header"
+import axios from 'axios'
 
 export default function Calendar() {
   const [calendar, setCalendar] = useState([]);
@@ -14,27 +15,22 @@ export default function Calendar() {
   }, [value]);
 
 
+  const [arr, setTasksData] = useState([])
+
+const getTasks = () => {
+axios.get('/get_task_detail')
+.then((response) => {
+  setTasksData(response.data)
+}).catch(() => {
+  alert('Error retrieving data!!!');
+});
+}
+
+useEffect(() =>{
+  getTasks();
+}, [])
+
   
-const arr = [
-    {
-    id: 1,
-    name: "Do laundry",
-    title: "Task 1",
-    priority: 5,
-    category: "red",
-    date: "Jan 06 2021"
-    },
-    {
-    id: 2,
-    name: "Buy milk",
-    title: "Task 2",
-    priority: 2,
-    category: "red",
-    date: "Jan 10 2021"
-    },
-    { id: 3, name: "task", title: "Task 3", priority: 4, category: "blue", date: "Jan 15 2021" },
-    { id: 4, name: "Test", title: "Test", priority: 1, category: "green", date: "Jan 17 2021" }
-]
 
 
   return (
