@@ -14,6 +14,7 @@ import axios from 'axios'
 function App() {
 
   const [TasksData, setTasksData] = useState([])
+  const [TasksCount, setTasksCount] = useState(true)
 
   const getTasks = () => {
   axios.get('/get_task_detail')
@@ -26,10 +27,9 @@ function App() {
 
   useEffect(() =>{
     getTasks();
-  }, [])
+  }, [TasksCount])
   
 
-console.log(TasksData[0])
 
   const [isEdit, setIsEdit] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
@@ -39,7 +39,6 @@ console.log(TasksData[0])
 
   const hideModal = () => setIsAdd(false)
   const showModal = () => setIsAdd(true)
-
 
       
 
@@ -53,14 +52,20 @@ console.log(TasksData[0])
             <EditableTaskDescription 
               newTask={true} 
               hideModal={hideModal} 
+              setIsEdit= {setIsEdit}
+              setTasksCount = {setTasksCount}
+              tasksCount = {TasksCount} 
               selectedTask={selectedTask}
+              setSelectedTask = {setSelectedTask}
               />
           </Modal.Body>
         </Modal>
         <Row style={{height: "94vh"}}>
           <Col lg={3} style={{height: "93vh"}}>
             <Row style={{height: "55%"}}>
-              <TasksList setSelectedTask={setSelectedTask}/>
+              <TasksList setSelectedTask={setSelectedTask}
+                TasksData = {TasksData}
+              />
             </Row>
             <Row className="d-none d-lg-block">
               <Calendar />
@@ -76,7 +81,8 @@ console.log(TasksData[0])
                 <div className="edit-button align-items-center mt-2"><FaPlus size="md" color="white" className="edit-button-icon" onClick={showModal}/></div>
               </Col>
               <Col lg={11}>
-              <EditableTaskDescription isEdit={isEdit} selectedTask={selectedTask} />
+              : <EditableTaskDescription isEdit={isEdit} tasksCount = {TasksCount}  setTasksCount = {setTasksCount} setIsEdit= {setIsEdit} setSelectedTask = {setSelectedTask}  selectedTask={selectedTask} />
+              
               {/* {(isEdit)? <TaskDescription className={`${(isEdit)? "d-none" : "d-block"}`} selectedTask={selectedTask} />
               :<EditableTaskDescription className={`${(isEdit)?"d-none":"d-block"}`} selectedTask={(selectedTask)} />
               } */}

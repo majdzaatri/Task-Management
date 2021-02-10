@@ -16,10 +16,11 @@ function isToday(day) {
 
 
 export function gotEvent(day, arr) {
-    for(var i=0; i<arr.length; i++)
+    for(var i=0; i<arr.length; i++){
         if (day.isSame(moment(arr[i].date))){
             return "event-indicator"
         }
+      }
     return ""
 }
 

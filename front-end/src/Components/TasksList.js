@@ -6,11 +6,10 @@ import SearchBar from "./SearchBar"
 import Sort from './Sort'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row} from "react-bootstrap"
-import axios from 'axios'
 
 
 
-const TasksList = ({setSelectedTask, toggleSidebar}) => {
+const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
 
     const [selected, setSelected] = useState("")
     const [input, setInput] = useState("")
@@ -22,26 +21,11 @@ const TasksList = ({setSelectedTask, toggleSidebar}) => {
         setIsAsc(!isAsc);
     }
 
-    
-const [TasksData, setTasksData] = useState([])
-
-const getTasks = () => {
-axios.get('/get_task_detail')
-.then((response) => {
-  setTasksData(response.data)
-}).catch(() => {
-  alert('Error retrieving data!!!');
-});
-}
-
-useEffect(() =>{
-  getTasks();
-}, [])
 
 
-    function changeColor(id,title,name,taskPriority,category,date) {
+    function changeColor(id,title,name,taskPriority,category,date,status,categoryDetails) {
       setSelected(id);
-      setSelectedTask({id,title,name,taskPriority,category,date});
+      setSelectedTask({id,title,name,taskPriority,category,date, status, categoryDetails });
     };
 
     function custom_sort(a, b) {
@@ -71,11 +55,11 @@ useEffect(() =>{
           }
         } else {
           for(var i=0; i<categorySelected.length;i++){
-            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.name.toLowerCase().includes(input.toLowerCase()))
+            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.title.toLowerCase().includes(input.toLowerCase()))
               return val
           }
         }
-      } else if (val.name.toLowerCase().includes(input.toLowerCase())) {
+      } else if (val.title.toLowerCase().includes(input.toLowerCase())) {
         return val
       }
     }
@@ -96,7 +80,7 @@ useEffect(() =>{
         </Row>
         <div style={{overflow: "scroll", height: "100%"}}>
 
-        {TasksData.filter(custom_filter).sort(custom_sort).map(({ name, id, title, priority, category, date }) => (
+        {TasksData.filter(custom_filter).sort(custom_sort).map(({ name, id, title, priority, category, date, status,categoryDetails  }) => (
           <Task
             key={id}
             id={id}
@@ -108,6 +92,8 @@ useEffect(() =>{
             taskPriority={priority}
             category={category}
             date={date}
+            status={status}
+            categoryDetails = {categoryDetails}
           />
         ))}
         </div>
