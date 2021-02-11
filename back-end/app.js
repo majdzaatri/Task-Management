@@ -23,6 +23,7 @@ const tasks = new mongoose.Schema ({
   title: String,
   priority: String,
   category: String,
+  categoryDetails: String,
   date: String,
   status: String
 }); 
@@ -31,7 +32,6 @@ const User = mongoose.model("User", users);
 const Task = mongoose.model("Task", tasks);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 
 app.post('/save_data', urlencodedParser,(req,res) => {
     Task.create({_id: req.body.id}, {
@@ -52,7 +52,20 @@ app.post('/save_data', urlencodedParser,(req,res) => {
 
 
 app.post('/add_task',(req,res) => {
+  console.log(req.body)
   Task.create(req.body,function(error, docs){
+  if (error){
+    console.log(error)
+  }else {
+    console.log(docs)
+  }
+  res.send("saved")
+})
+})
+
+app.post('/delete_task',(req,res) => {
+  console.log(req.body)
+  Task.deleteOne({id: req.body.id}, req.body ,function(error, docs){
   if (error){
     console.log(error)
   }else {

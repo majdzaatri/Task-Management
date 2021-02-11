@@ -1,16 +1,15 @@
 import "../App.css";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Task from "./Task";
 import SearchBar from "./SearchBar"
 // import TasksData from '../Tasks.json'
 import Sort from './Sort'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row} from "react-bootstrap"
-import axios from 'axios'
 
 
 
-const TasksList = ({setSelectedTask, toggleSidebar}) => {
+const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
 
     const [selected, setSelected] = useState("")
     const [input, setInput] = useState("")
@@ -22,37 +21,35 @@ const TasksList = ({setSelectedTask, toggleSidebar}) => {
         setIsAsc(!isAsc);
     }
 
-    
-const [TasksData, setTasksData] = useState([])
 
-const getTasks = () => {
-axios.get('/get_task_detail')
-.then((response) => {
-  setTasksData(response.data)
-  console.log(response.data)
-}).catch(() => {
-  alert('Error retrieving data!!!');
-});
-}
+// const getTasks = () => {
+// axios.get('/get_task_detail')
+// .then((response) => {
+//   setTasksData(response.data)
+//   console.log(response.data)
+// }).catch(() => {
+//   alert('Error retrieving data!!!');
+// });
+// }
 
-useEffect(() =>{
-  getTasks();
-}, [])
+// useEffect(() =>{
+//   getTasks();
+// }, [])
 
 
-    function changeColor(id,title,name,taskPriority,category,date) {
+    function changeColor(id,title,name,taskPriority,category,date,status,categoryDetails) {
       setSelected(id);
-      setSelectedTask({id,title,name,taskPriority,category,date});
+      setSelectedTask({id,title,name,taskPriority,category,date, status, categoryDetails });
     };
 
     function custom_sort(a, b) {
-      if(choosenSort == "Date"){
+      if(choosenSort === "Date"){
         if(isAsc)
           return new Date(a.date) - new Date(b.date);
         else
           return new Date(b.date) - new Date(a.date);
       }
-      else if(choosenSort == "Priority"){
+      else if(choosenSort === "Priority"){
         if(isAsc)
           return a.priority - b.priority;
         else
@@ -61,22 +58,22 @@ useEffect(() =>{
     }
 
     function custom_filter(val) {
-      if(input == "" && categorySelected.length <=0) {
+      if(input === "" && categorySelected.length <=0) {
         return val
       } else if(categorySelected.length > 0) {
-        if(input == ""){
+        if(input === ""){
           for(var i=0; i<categorySelected.length;i++){
             if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase())){
               return val
             }
           }
         } else {
-          for(var i=0; i<categorySelected.length;i++){
-            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.name.toLowerCase().includes(input.toLowerCase()))
+          for(i=0; i<categorySelected.length;i++){
+            if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.title.toLowerCase().includes(input.toLowerCase()))
               return val
           }
         }
-      } else if (val.name.toLowerCase().includes(input.toLowerCase())) {
+      } else if (val.title.toLowerCase().includes(input.toLowerCase())) {
         return val
       }
     }
@@ -97,7 +94,7 @@ useEffect(() =>{
         </Row>
         <div style={{overflow: "scroll", height: "100%"}}>
 
-        {TasksData.filter(custom_filter).sort(custom_sort).map(({ name, id, title, priority, category, date }) => (
+        {TasksData.filter(custom_filter).sort(custom_sort).map(({ name, id, title, priority, category, date, status,categoryDetails  }) => (
           <Task
             key={id}
             id={id}
@@ -109,6 +106,8 @@ useEffect(() =>{
             taskPriority={priority}
             category={category}
             date={date}
+            status={status}
+            categoryDetails = {categoryDetails}
           />
         ))}
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+var dateFormat = require("dateformat");
 
 
 export default function Task({
@@ -9,7 +10,9 @@ export default function Task({
   name,
   taskPriority,
   category,
-  date
+  date,
+  status,
+  categoryDetails
 }) {
   let stars = [];
 
@@ -23,7 +26,7 @@ export default function Task({
   return (
     <div style={{backgroundColor: category ,borderRadius: 10}}>
       <div className="block" onClick={() => {
-        changeColor(id,title,name,taskPriority,category,date);
+        changeColor(id,title,name,taskPriority,category,date,status,categoryDetails);
       }}>
         <div
           className={`task ${
@@ -34,7 +37,7 @@ export default function Task({
         >
           <h1>{title}</h1>
           {/* <h3>{name}</h3> */}
-          <div>{stars}<br></br> {date}</div>
+          <div>{stars}<br></br> {dateFormat(new Date(date), "dd/mm/yyyy")}</div>
         </div>
       </div>
     </div>
