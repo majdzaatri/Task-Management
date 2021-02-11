@@ -70,6 +70,18 @@ app.post('/add_task',(req,res) => {
 })
 })
 
+app.post('/delete_task',(req,res) => {
+  console.log(req.body)
+  Task.deleteOne({id: req.body.id}, req.body ,function(error, docs){
+  if (error){
+    console.log(error)
+  }else {
+    console.log(docs)
+  }
+  res.send("saved")
+})
+})
+
 
 
 

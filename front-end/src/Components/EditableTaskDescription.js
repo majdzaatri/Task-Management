@@ -7,11 +7,16 @@ import Rating from "react-rating";
 // import "../App.css"
 import axios from 'axios'
 import useFormFields from '@usereact/use-form-fields'
+import { useAlert } from 'react-alert'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 var dateFormat = require("dateformat");
 
 
-const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTasksCount,tasksCount,setSelectedTask ,hideModal}) => {
-    
+
+const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,newTask,setTasksCount,tasksCount,setSelectedTask ,hideModal, setIsDeleteTask}) => {
+    const alert = useAlert()
 
     var intialPriority = 0
     if(newTask){
@@ -26,6 +31,8 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
         values.priority = value
     }
 
+
+    
 
     const initialValues = {
         "id": Math.floor(Math.random() * 99999999),
@@ -68,10 +75,39 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
           alert('Error retrieving data!!!');
         });  
         console.log(values)
+        alert.show('Task "' + values.title + '" has been created successfully')
         setTasksCount(!tasksCount) 
       }
 
-
+      const submit = () => {
+        confirmAlert({
+        //   title: 'Confirm to submit',
+          message: 'Are you sure you want to delete task"' + selectedTask.title + '"?',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => {
+                axios.post('/delete_Task', {
+                    id: selectedTask.id,
+                }).then((response) => {
+                console.log(response)
+                }).catch(() => {
+                  alert('Error retrieving data!!!');
+                });  
+                setIsDeleteTask(false)
+                alert.show('Task "' + selectedTask.title + '" has been deleted successfully')
+                setTasksCount(!tasksCount) 
+              }
+            },
+            {
+              label: 'No',
+              onClick: () => {alert.show('nothing to delete')
+              setIsDeleteTask(false)
+            }
+            }
+          ]
+        });
+      };
 
       const handleEdit = e => {
         e.preventDefault();
@@ -87,6 +123,8 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
             status: selectedTask.status
         }).then((response) => {
         console.log(response)
+        alert.show('Task "' + selectedTask.title + '" has been updated successfully')
+
         }).catch(() => {
           alert('Error retrieving data!!!');
         });          
@@ -94,6 +132,9 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
         setTasksCount(!tasksCount) 
 
   }
+        if (deleteTask === true){
+            submit()
+        }
 
       const { values, fields } = useFormFields(initialValues)
       const [choosenStatus, setChoosenStatus] = useState("New")
@@ -109,8 +150,6 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
         setStartDate(date)
         values.date = date
     }
-    console.log(selectedTask)
-
     return (
         
         <Form onSubmit={handleSubmit} className="p-5">
@@ -194,17 +233,21 @@ const EditableTaskDescription = ({isEdit, selectedTask, setIsEdit,newTask,setTas
                 
                 <DropdownButton id="dropdown" size="sm" variant="secondary" title={choosenCategoryDetails}>
                     <Dropdown.Item as="button" value="Home"  onClick={(e) =>  {setchoosenCategory("red") 
+                        // alert.show('Oh look, an alert!')
                         e.preventDefault()
+                        setchoosenCategoryDetails(e.target.value)
                         values.categoryDetails = e.target.value
                         values.category = "red"}}> Home</Dropdown.Item>
                     <Dropdown.Item as="button" value="Work" onClick={(e) =>  {setchoosenCategory("blue") 
                         e.preventDefault()
                         values.categoryDetails = e.target.value
+                        setchoosenCategoryDetails(e.target.value)
                         values.category = "blue"}}>Work</Dropdown.Item>
                     <Dropdown.Item as="button" value="Homework" onClick={(e) =>  {setchoosenCategory("green") 
                         e.preventDefault()
                         values.categoryDetails = e.target.value
-                        values.category = "green"}}>HomeWork</Dropdown.Item>
+                        setchoosenCategoryDetails(e.target.value)
+                        values.category = "green"}}>Homework</Dropdown.Item>
                     <Dropdown.Item as="button" value="Category">...</Dropdown.Item>
                  </DropdownButton>
                     :((!isEdit)?
