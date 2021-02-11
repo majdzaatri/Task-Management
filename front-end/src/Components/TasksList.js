@@ -1,5 +1,5 @@
 import "../App.css";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Task from "./Task";
 import SearchBar from "./SearchBar"
 // import TasksData from '../Tasks.json'
@@ -29,13 +29,13 @@ const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
     };
 
     function custom_sort(a, b) {
-      if(choosenSort == "Date"){
+      if(choosenSort === "Date"){
         if(isAsc)
           return new Date(a.date) - new Date(b.date);
         else
           return new Date(b.date) - new Date(a.date);
       }
-      else if(choosenSort == "Priority"){
+      else if(choosenSort === "Priority"){
         if(isAsc)
           return a.priority - b.priority;
         else
@@ -44,17 +44,17 @@ const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
     }
 
     function custom_filter(val) {
-      if(input == "" && categorySelected.length <=0) {
+      if(input === "" && categorySelected.length <=0) {
         return val
       } else if(categorySelected.length > 0) {
-        if(input == ""){
+        if(input === ""){
           for(var i=0; i<categorySelected.length;i++){
             if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase())){
               return val
             }
           }
         } else {
-          for(var i=0; i<categorySelected.length;i++){
+          for(i=0; i<categorySelected.length;i++){
             if(val.category.toLowerCase().includes(categorySelected[i].toLowerCase()) && val.title.toLowerCase().includes(input.toLowerCase()))
               return val
           }

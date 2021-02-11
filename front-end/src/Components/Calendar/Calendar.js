@@ -15,12 +15,12 @@ export default function Calendar() {
   }, [value]);
 
 
-  const [arr, setTasksData] = useState([])
+  const [arr, setArr] = useState([])
 
 const getTasks = () => {
 axios.get('/get_task_detail')
 .then((response) => {
-  setTasksData(response.data)
+  setArr(response.data)
 }).catch(() => {
   alert('Error retrieving data!!!');
 });
@@ -31,8 +31,6 @@ useEffect(() =>{
 }, [])
 
   
-
-
   return (
     <div className="calendar">
      <CalendarHeader value={value} setValue={setValue} />
