@@ -18,6 +18,9 @@ var dateFormat = require("dateformat");
 const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,newTask,setTasksCount,tasksCount,setSelectedTask ,hideModal, setIsDeleteTask}) => {
     const alert = useAlert()
 
+
+const EditableTaskDescription = ({isEdit, selectedTask, x,newTask, hideModal}) => {
+
     var intialPriority = 0
     if(newTask){
         intialPriority = 0

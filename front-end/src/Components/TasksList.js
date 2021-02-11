@@ -22,6 +22,20 @@ const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
     }
 
 
+// const getTasks = () => {
+// axios.get('/get_task_detail')
+// .then((response) => {
+//   setTasksData(response.data)
+//   console.log(response.data)
+// }).catch(() => {
+//   alert('Error retrieving data!!!');
+// });
+// }
+
+// useEffect(() =>{
+//   getTasks();
+// }, [])
+
 
     function changeColor(id,title,name,taskPriority,category,date,status,categoryDetails) {
       setSelected(id);
