@@ -11,6 +11,10 @@ import useFormFields from '@usereact/use-form-fields'
 
 const EditableTaskDescription = ({isEdit, selectedTask, x,newTask, hideModal}) => {
     
+
+    console.log(selectedTask)
+
+
     var intialPriority = 0
     if(newTask){
         intialPriority = 0

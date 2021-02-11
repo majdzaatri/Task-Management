@@ -29,6 +29,7 @@ const getTasks = () => {
 axios.get('/get_task_detail')
 .then((response) => {
   setTasksData(response.data)
+  console.log(response.data)
 }).catch(() => {
   alert('Error retrieving data!!!');
 });
