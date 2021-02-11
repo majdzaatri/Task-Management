@@ -598,7 +598,7 @@ Login
 
 .delete-button{
   border-radius: 50%;
-  background-color: var(--clr-primary-3);
+  background-color: rgba(180,0,0);
   width: 70px;
   height: 70px;
   text-align: center;

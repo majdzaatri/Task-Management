@@ -5,7 +5,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 
-// import TasksList from './Components/TasksList'
+
+
+    
+
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+
+function App() {
+
+  return (
+
+    <Router>
+      <div>
+        <Switch>
+          <PrivateRoute path="/home" component={HomePage} exact />
+          <Route path="/" component={LoginPage} />
+        </Switch>
+      </div>
+    </Router>
+  )
+
+  // import TasksList from './Components/TasksList'
 // import {Row, Col} from 'react-bootstrap'
 // import Modal from "react-bootstrap/Modal";
 // import Calendar from './Components/Calendar/Calendar'
@@ -45,25 +66,6 @@ import HomePage from './HomePage';
 
 //   const hideModal = () => setIsAdd(false)
 //   const showModal = () => setIsAdd(true)
-
-    
-
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
-
-function App() {
-
-  return (
-
-    <Router>
-      <div>
-        <Switch>
-          <PrivateRoute path="/home" component={HomePage} exact />
-          <Route path="/" component={LoginPage} />
-        </Switch>
-      </div>
-    </Router>
-  )
 
 //     <div>
 //       <Layout selectedTask={selectedTask}>
