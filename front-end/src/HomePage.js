@@ -65,7 +65,6 @@ function HomePage(props) {
                     setIsEdit= {setIsEdit}
                     setTasksCount = {setTasksCount}
                     tasksCount = {TasksCount} 
-                    selectedTask={selectedTask}
                     setSelectedTask = {setSelectedTask}
                     setIsDeleteTask = {setIsDeleteTask}
                     userEmail = {props.location.state.email}
@@ -114,6 +113,7 @@ function HomePage(props) {
                         }
                         <div className="edit-button align-items-center  mt-2"><FaPlus size="md" color="white" className="edit-button-icon" onClick={showModal}/></div>
                         <div className="delete-button align-items-center  mt-2"> <FaTrash size="md" color="white" className="delete-button-icon" onClick={toggleDelete} /> </div>
+                        
                       </Col>
                       <Col lg={11}>
                         <EditableTaskDescription isEdit={isEdit}  setIsDeleteTask={setIsDeleteTask} deleteTask={deleteTask} tasksCount = {TasksCount}  setTasksCount = {setTasksCount} setIsEdit= {setIsEdit} setSelectedTask = {setSelectedTask}  selectedTask={selectedTask} userEmail = {props.location.state.email}/>

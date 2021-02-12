@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios'
 import auth from '../auth';
+import validator from 'email-validator';
 
 
 //Login Box
@@ -26,7 +27,26 @@ const Login = (props) => {
     })
   }
 
+  const handleEmail = e => {
+    setIsValidEmail(validator.validate(user.email))
+  }
+
+  const handlePassowrd = e => {
+    setIisValidPassword(user.password.length >5 ? true : false) 
+   }
+
+  const  [isValidEmail, setIsValidEmail] = useState(true)
+  const  [isValidPassword, setIisValidPassword] = useState(true)
+  const  [isAuth, setIsAuth] = useState(true)
+
+
+
+
   const handleSubmit = () => {
+    setIsValidEmail(validator.validate(user.email))
+    setIisValidPassword(user.password.length >5 ? true : false)
+    setIsAuth(true)
+    if (isValidEmail && isValidPassword){
     axios.post('/login', {
       email: user.email,
       password: user.password
@@ -37,12 +57,14 @@ const Login = (props) => {
       props.setUserName(response.data.name);
       } else {
         console.log("auth failed")
+        setIsAuth(false)
       }
       console.log(response.data);
     }).catch(() => {
       console.log("Error logging user");
     });
   }
+}
 
 
   return (
@@ -59,8 +81,15 @@ const Login = (props) => {
             name="email"
             className="login-input"
             placeholder="email"
-            onChange={updateField}
+            onChange={(e) =>{updateField(e)
+            handleEmail()
+            }}
             />
+             {(!isValidEmail)? <small class="text-danger">Please enter a valid email</small>:
+             <div> </div>
+             }
+            
+             
         </div>
 
         <div className="input-group">
@@ -70,9 +99,16 @@ const Login = (props) => {
             name="password"
             className="login-input"
             placeholder="Password"
-            onChange={updateField}/>
+            onChange={(e) =>{updateField(e)
+              handlePassowrd()
+            }}/>
+           {(!isValidPassword)? <small class="text-danger">Please enter a password with at least 6 characters</small>:
+           <div> </div>}
         </div>
 
+
+        {(!isAuth)? <p class="font-weight-bold text-danger">The email or password is inccorect</p>:
+        <div> </div>}
         {/* <input
          type="checkbox"
          id="rememberMe"
