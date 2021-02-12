@@ -24,7 +24,7 @@ const Navbar = ({userName}) => {
 
   return <nav className="navbar">
     <Row className="w-100 align-items-center">
-      <Col style={{marginBottom: "-80px"}}><img src={logo} /></Col>
+      <Col lg={2} style={{marginBottom: "-80px"}}><img src={logo} /></Col>
       <Col style={{color: "white", fontSize: "x-large", fontWeight: "bold"}}>
         <Row className="justify-content-end">
             Hello, {userName}

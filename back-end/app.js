@@ -102,19 +102,26 @@ app.get('/get_task_detail', (req, res) => {
 
 
 app.post('/signup', (req, res) => {
-  User.create({
-    fullname: req.body.fullname,
-    email: req.body.email,
-    password: req.body.password
-  }, function(err){
-    if (err){
-      console.log(err)
-    }else {
-      console.log("Successfully saved")
-    }
-    res.send("saved")
-  });
-});
+  User.findOne({email:req.body.email},function(err, doc){
+    if(doc){
+      res.send("user is already exist")
+    }else{
+      User.create({
+        fullname: req.body.fullname,
+        email: req.body.email,
+        password: req.body.password
+      }, function(err){
+        if (err){
+          console.log(err)
+        }else {
+          console.log("Successfully saved")
+        }
+        res.send("saved")
+    })
+  }})})
+
+
+
 
 app.post('/login', (req, res) => {
   User.findOne({
