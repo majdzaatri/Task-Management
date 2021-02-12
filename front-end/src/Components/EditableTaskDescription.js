@@ -11,11 +11,12 @@ import { useAlert } from 'react-alert'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
+
 var dateFormat = require("dateformat");
 
 
 
-const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,newTask,setTasksCount,tasksCount,setSelectedTask ,hideModal, setIsDeleteTask}) => {
+const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,newTask,setTasksCount,tasksCount,setSelectedTask ,hideModal, setIsDeleteTask, userEmail}) => {
     const alert = useAlert()
 
     var intialPriority = 0
@@ -59,7 +60,7 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
       const handleSubmit = e => {
         e.preventDefault();
         console.log('values: ', values)
-
+        console.log('Email' + userEmail)
         axios.post('/add_task', {
             id: values.id,
             name: values.name,
@@ -68,7 +69,8 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
             category: values.category,
             categoryDetails: values.categoryDetails,
             date: values.date,
-            status: values.status
+            status: values.status,
+            user: userEmail
         }).then((response) => {
         console.log(response)
         }).catch(() => {
@@ -162,7 +164,7 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
             </Form.Group>
 
 
-            <Form.Group className="">
+            <Form.Group>
                 <Form.Label placeholder="task Title" className="font-weight-bold">
                     Descriptions:
                 </Form.Label>
@@ -172,7 +174,7 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
             </Form.Group>
 
                 
-            <Row className="my-5  mx-0 p-0">
+            <Row className="my-5 mx-0 p-0">
                 <Col className="pl-0">
                     <Form.Label className="font-weight-bold">Status:</Form.Label>
                     {(newTask)?
@@ -198,12 +200,15 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
                         <Dropdown.Item as="button" value = "In Progress"  onClick={(e) =>  {setSelectedTask({...selectedTask, status:e.target.value})
                         e.preventDefault()
                         }}>In Progress</Dropdown.Item>
+                        <Dropdown.Item as="button" value = "Done"  onClick={(e) =>  {setSelectedTask({...selectedTask, status:e.target.value})
+                        e.preventDefault()
+                        }}>Done</Dropdown.Item>
                     </DropdownButton>)
                     }
                 </Col>
                 <Col className="py-0 mt-2">
                     <Form.Label className="font-weight-bold d-block">Due on:</Form.Label>
-                    {(newTask)?<DatePicker  selected={startDate} onChange={date=> onDateChange(date)}  />
+                    {(newTask)?<DatePicker selected={startDate} onChange={date=> onDateChange(date)}  />
                      :((!isEdit)?
                     <Form.Label className="font-weight-bold d-block ml-3">{dateFormat(new Date(selectedTask.date), "dd/mm/yyyy")} </Form.Label>
                     :<DatePicker  selected={new Date(selectedTask.date)} onChange={date=> setSelectedTask({...selectedTask, date : date})}  />)
@@ -212,7 +217,8 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
                 </Col>
             </Row>
 
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Row className="my-5 mx-0 p-0">
+            <Col className="pl-0">
                 <Form.Label className="font-weight-bold d-block">Priority:</Form.Label>
                 {(newTask)?
                     <Rating fractions="2" initialRating={priority} {...fields.priority} onClick={onChangePriority} />
@@ -223,53 +229,49 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
                     } readonly={!isEdit} />
                 }
                 
-            </Form.Group>
-
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+            </Col>
+            <Col className="pl-0">
                 <Form.Label className="font-weight-bold">Category:</Form.Label>
                 {/* <Select options={this.options} onChange={date => this.setState({options:date})} /> */}
 
                 {(newTask)?
                 
                 <DropdownButton id="dropdown" size="sm" variant="secondary" title={choosenCategoryDetails}>
-                    <Dropdown.Item as="button" value="Home"  onClick={(e) =>  {setchoosenCategory("red") 
+                    <Dropdown.Item as="button" style={{backgroundColor: "rgba(250,0,0,0.15)"}} value="Home"  onClick={(e) =>  {setchoosenCategory("red") 
                         // alert.show('Oh look, an alert!')
                         e.preventDefault()
                         setchoosenCategoryDetails(e.target.value)
                         values.categoryDetails = e.target.value
-                        values.category = "red"}}> Home</Dropdown.Item>
-                    <Dropdown.Item as="button" value="Work" onClick={(e) =>  {setchoosenCategory("blue") 
+                        values.category = "rgba(250,0,0,0.3)"}}> Home</Dropdown.Item>
+                    <Dropdown.Item as="button" value="Work" style={{backgroundColor: "rgba(0,0,250,0.15)"}} onClick={(e) =>  {setchoosenCategory("blue") 
                         e.preventDefault()
                         values.categoryDetails = e.target.value
                         setchoosenCategoryDetails(e.target.value)
-                        values.category = "blue"}}>Work</Dropdown.Item>
-                    <Dropdown.Item as="button" value="Homework" onClick={(e) =>  {setchoosenCategory("green") 
+                        values.category = "rgba(0,0,250,0.3)"}}>Work</Dropdown.Item>
+                    <Dropdown.Item as="button" value="Homework" style={{backgroundColor: "rgba(0,250,0,0.15)"}} onClick={(e) =>  {setchoosenCategory("green") 
                         e.preventDefault()
                         values.categoryDetails = e.target.value
                         setchoosenCategoryDetails(e.target.value)
-                        values.category = "green"}}>Homework</Dropdown.Item>
-                    <Dropdown.Item as="button" value="Category">...</Dropdown.Item>
+                        values.category = "rgba(0,250,0,0.3)"}}>Homework</Dropdown.Item>
                  </DropdownButton>
                     :((!isEdit)?
-                 <Row className="mx-0 w-25" style={{backgroundColor: selectedTask.category, color: "white"}}> {selectedTask.categoryDetails}</Row>
+                 <Row className="mx-0 w-25 justify-content-center" style={{backgroundColor: selectedTask.category, borderRadius: "5rem"}}> {selectedTask.categoryDetails}</Row>
 
 
                  :<DropdownButton id="dropdown" size="sm" variant="secondary" title={selectedTask.categoryDetails}>
-                    <Dropdown.Item as="button" value="Home" onClick={(e) =>  {setSelectedTask({...selectedTask, category:"red", categoryDetails:e.target.value })
+                    <Dropdown.Item as="button" value="Home" style={{backgroundColor: "rgba(250,0,0,0.15)"}} onClick={(e) =>  {setSelectedTask({...selectedTask, category:"rgba(250,0,0,0.3)", categoryDetails:e.target.value })
                         e.preventDefault()
                         }} >Home</Dropdown.Item>
-                    <Dropdown.Item as="button" value="Work"  onClick={(e) =>  {setSelectedTask({...selectedTask, category:"blue",  categoryDetails:e.target.value})
+                    <Dropdown.Item as="button" value="Work" style={{backgroundColor: "rgba(0,0,250,0.15)"}} onClick={(e) =>  {setSelectedTask({...selectedTask, category:"rgba(0,0,250,0.3)",  categoryDetails:e.target.value})
                         e.preventDefault()
                         }} >Work</Dropdown.Item>
-                    <Dropdown.Item as="button" value="Homework"  onClick={(e) =>  {setSelectedTask({...selectedTask, category:"green",  categoryDetails:e.target.value})
+                    <Dropdown.Item as="button" value="Homework" style={{backgroundColor: "rgba(0,250,0,0.15)"}} onClick={(e) =>  {setSelectedTask({...selectedTask, category:"rgba(0,250,0,0.3)",  categoryDetails:e.target.value})
                         e.preventDefault()
                         }} >HomeWork</Dropdown.Item>
-                    <Dropdown.Item as="button" value="..."  onClick={(e) =>  {setSelectedTask({...selectedTask, category:e.target.value,  categoryDetails:e.target.value})
-                        e.preventDefault()
-                        }} >...</Dropdown.Item>
                  </DropdownButton>)
                 }
-            </Form.Group>
+            </Col>
+            </Row>
 
 
             <Row className="justify-content-center w-100">

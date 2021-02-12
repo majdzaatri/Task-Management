@@ -32,7 +32,7 @@ const Signup = () => {
   return (
     <div className="inner-container">
       <div className="header">
-        Register
+        <h1>Register</h1>
       </div>
       <div className="box">
 

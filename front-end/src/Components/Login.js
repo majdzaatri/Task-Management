@@ -1,11 +1,10 @@
-import React, {useState, useContext, createContext} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios'
 import auth from '../auth';
 
 
 //Login Box
 const Login = (props) => {
-
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -33,7 +32,9 @@ const Login = (props) => {
       password: user.password
     }).then((response) => {
       if(response.data.auth){
-      auth.login(() => props.setIsAuth(true))
+      auth.login(() => props.setIsAuth(true));
+      props.setUserEmail(response.data.email);
+      props.setUserName(response.data.name);
       } else {
         console.log("auth failed")
       }
@@ -47,7 +48,7 @@ const Login = (props) => {
   return (
     <div className="inner-container">
       <div className="header">
-        Login
+        <h1>Login</h1>
       </div>
       <div className="box">
 
@@ -72,12 +73,12 @@ const Login = (props) => {
             onChange={updateField}/>
         </div>
 
-        <input
+        {/* <input
          type="checkbox"
          id="rememberMe"
          name="rememberMe"
          onClick={updateCheckField}
-         /> Remember Me
+         /> Remember Me */}
 
         <button
           type="button"

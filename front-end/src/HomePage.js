@@ -10,10 +10,11 @@ import Calendar from './Components/Calendar/Calendar'
 import { FaTimes, FaEdit, FaPlus, FaTrash} from 'react-icons/fa';
 import EditableTaskDescription from "./Components/EditableTaskDescription"
 import axios from 'axios'
+import Sidebar from "./Components/Sidebar"
 import LoginPage from './LoginPage'
 import { VscArchive } from 'react-icons/vsc';
 
-function HomePage() {
+function HomePage(props) {
 
   const [deleteTask, setIsDeleteTask] = useState(false);
 
@@ -21,17 +22,20 @@ function HomePage() {
   const [isAdd, setIsAdd] = useState(false);
   const [selectedTask, setSelectedTask] = useState(TasksData2[0])
 
-  const toggleEdit = () => setIsEdit(!isEdit)
-  const toggleDelete = () => {setIsDeleteTask(true)
-  }
-
-  const hideModal = () => setIsAdd(false)
-  const showModal = () => setIsAdd(true)
   const [TasksData, setTasksData] = useState([])
   const [TasksCount, setTasksCount] = useState(true)
 
+
+  const toggleEdit = () => setIsEdit(!isEdit)
+  const toggleDelete = () => setIsDeleteTask(true)
+
+  const hideModal = () => setIsAdd(false)
+  const showModal = () => setIsAdd(true)
+
   const getTasks = () => {
-  axios.get('/get_task_detail')
+    let email = props.location.state.email
+    
+  axios.get('/get_task_detail', {params: {user: email}})
   .then((response) => {
     setTasksData(response.data)
   }).catch(() => {
@@ -43,10 +47,30 @@ function HomePage() {
     getTasks();
   }, [TasksCount])
 
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  }
 
     return (
         <div>
-               <Layout selectedTask={selectedTask}>
+            <Sidebar isOpen={isOpen} selectedTask={selectedTask} setSelectedTask={setSelectedTask} setTasksCount={setTasksCount} toggleSidebar={toggleSidebar} setIsEdit={setIsEdit} isEdit={isEdit}/>
+               <Layout 
+                    selectedTask={selectedTask} 
+                    userName={props.location.state.name} 
+                    isOpen={isOpen} 
+                    toggleSidebar={toggleSidebar}
+                    hideModal={hideModal} 
+                    setIsEdit= {setIsEdit}
+                    setTasksCount = {setTasksCount}
+                    tasksCount = {TasksCount} 
+                    selectedTask={selectedTask}
+                    setSelectedTask = {setSelectedTask}
+                    setIsDeleteTask = {setIsDeleteTask}
+                    userEmail = {props.location.state.email}
+                    >
+                <div className="d-sm-none d-xs-none d-md-none">
                  <Modal show={isAdd} centered size="lg">
                    <Modal.Body>
                      <EditableTaskDescription 
@@ -58,19 +82,26 @@ function HomePage() {
                       selectedTask={selectedTask}
                       setSelectedTask = {setSelectedTask}
                       setIsDeleteTask = {setIsDeleteTask}
-        
+                      userEmail = {props.location.state.email}
                       />
                   </Modal.Body>
                 </Modal>
+                </div>
                 <Row style={{height: "94vh"}}>
                   <Col lg={3} style={{height: "93vh"}}>
                     <Row style={{height: "55%"}}>
                       <TasksList setSelectedTask={setSelectedTask}
                         TasksData = {TasksData}
+                        toggleSidebar={toggleSidebar}
+                        toggleEdit={toggleEdit}
+                        toggleDelete={toggleDelete}
+                        isEdit={isEdit}
+                        isAdd={isAdd}
+                        setIsAdd={setIsAdd}
                       />
                     </Row>
                     <Row className="d-none d-lg-block">
-                      <Calendar />
+                      <Calendar TasksData={TasksData}/>
                     </Row>
                   </Col>  
                   <Col lg={9} className="p-2 d-none d-lg-block task-container" style={{boxShadow: "30px 0px 70px 10px grey inset"}}>
@@ -85,11 +116,7 @@ function HomePage() {
                         <div className="delete-button align-items-center  mt-2"> <FaTrash size="md" color="white" className="delete-button-icon" onClick={toggleDelete} /> </div>
                       </Col>
                       <Col lg={11}>
-                        <EditableTaskDescription isEdit={isEdit}  setIsDeleteTask={setIsDeleteTask} deleteTask={deleteTask} tasksCount = {TasksCount}  setTasksCount = {setTasksCount} setIsEdit= {setIsEdit} setSelectedTask = {setSelectedTask}  selectedTask={selectedTask} />
-                      
-                      {/* {(isEdit)? <TaskDescription className={`${(isEdit)? "d-none" : "d-block"}`} selectedTask={selectedTask} />
-                      :<EditableTaskDescription className={`${(isEdit)?"d-none":"d-block"}`} selectedTask={(selectedTask)} />
-                      } */}
+                        <EditableTaskDescription isEdit={isEdit}  setIsDeleteTask={setIsDeleteTask} deleteTask={deleteTask} tasksCount = {TasksCount}  setTasksCount = {setTasksCount} setIsEdit= {setIsEdit} setSelectedTask = {setSelectedTask}  selectedTask={selectedTask} userEmail = {props.location.state.email}/>
                       </Col>
                     </Row>
                   </Col>

@@ -1,20 +1,13 @@
 import React from "react"
 import Sidebar from "./Sidebar"
 import Navbar from "./Navbar"
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const Layout = ({children, selectedTask}) => {
-
-    const [isOpen, setIsOpen] = React.useState(false);
-
-
-    const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-      }
+const Layout = ({children, selectedTask, userName, isOpen, toggleSidebar}) => {
 
     return (
         <>
-            <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-            <Sidebar isOpen={isOpen} selectedTask={selectedTask} toggleSidebar={toggleSidebar} />
+            <Navbar userName={userName}/>
             {children}
         </>
     )

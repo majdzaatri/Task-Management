@@ -6,7 +6,7 @@ import dayStyles, {gotEvent} from "./styles";
 import CalendarHeader from "./header"
 import axios from 'axios'
 
-export default function Calendar() {
+export default function Calendar(props) {
   const [calendar, setCalendar] = useState([]);
   const [value, setValue] = useState(moment());
 
@@ -15,20 +15,20 @@ export default function Calendar() {
   }, [value]);
 
 
-  const [arr, setArr] = useState([])
+const [arr, setArr] = useState([])
 
-const getTasks = () => {
-axios.get('/get_task_detail')
-.then((response) => {
-  setArr(response.data)
-}).catch(() => {
-  alert('Error retrieving data!!!');
-});
-}
+// const getTasks = () => {
+// axios.get('/get_task_detail')
+// .then((response) => {
+//   setArr(response.data)
+// }).catch(() => {
+//   alert('Error retrieving data!!!');
+// });
+// }
 
-useEffect(() =>{
-  getTasks();
-}, [])
+// useEffect(() =>{
+//   getTasks();
+// }, [])
 
   
   return (
@@ -44,8 +44,8 @@ useEffect(() =>{
           <div key={index}>
             {week.map((day) => (
               <div key={day} className="day" onClick={() => setValue(day)}>
-              {gotEvent(day,arr)?
-                <div className={gotEvent(day, arr)}></div>:null
+              {gotEvent(day,props.TasksData)?
+                <div className={gotEvent(day, props.TasksData)}></div>:null
               }        
                 <div className={dayStyles(day, value)}>
                   {day.format("D").toString()}

@@ -25,7 +25,8 @@ const tasks = new mongoose.Schema ({
   category: String,
   categoryDetails: String,
   date: String,
-  status: String
+  status: String,
+  user: String
 }); 
 
 const User = mongoose.model("User", users);
@@ -33,27 +34,27 @@ const Task = mongoose.model("Task", tasks);
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.post('/save_data', urlencodedParser,(req,res) => {
-    Task.create({_id: req.body.id}, {
-    description: req.body.description,
-  status: req.body.status,
-  dueOn: req.body.dueOn,
-  priority: req.body.priority,
-  category: req.body.category
-  }, function(err){
-    if (err){
-      console.log(err)
-    }else {
-      console.log("Successfully saved")
-    }
-    res.send("saved")
-  })
-})
+// app.post('/save_data', urlencodedParser,(req,res) => {
+//     Task.create({_id: req.body.id}, {
+//     description: req.body.description,
+//   status: req.body.status,
+//   dueOn: req.body.dueOn,
+//   priority: req.body.priority,
+//   category: req.body.category
+//   }, function(err){
+//     if (err){
+//       console.log(err)
+//     }else {
+//       console.log("Successfully saved")
+//     }
+//     res.send("saved")
+//   })
+// })
 
 
 app.post('/add_task',(req,res) => {
   console.log(req.body)
-  Task.create(req.body,function(error, docs){
+  Task.create(req.body, function(error, docs){
   if (error){
     console.log(error)
   }else {
@@ -76,7 +77,7 @@ app.post('/delete_task',(req,res) => {
 })
 
 app.post('/update_task',(req,res) => {
-  console.log(req.body)
+  console.log(req.query.user)
   Task.updateOne({id: req.body.id}, req.body ,function(error, docs){
   if (error){
     console.log(error)
@@ -87,22 +88,9 @@ app.post('/update_task',(req,res) => {
 })
 })
 
-app.get('/edit_page', (req, res) => {
-  res.redirect("/TaskDescription")
-  console.log('d')
-
-});
-  
-
-app.get('/get_task', (req, res) => {
-  res.send()
-  console.log('d')
-
-});
-
-
 app.get('/get_task_detail', (req, res) => {
-  Task.find(function(err, users){
+  console.log(req)
+  Task.find({user: req.query.user} ,function(err, users){
     if(err)
       console.log(err)
       else {
@@ -134,11 +122,10 @@ app.post('/login', (req, res) => {
     password: req.body.password
   }, function(err, doc){
     if (err) throw err;
-
     var token = jwt.sign({ id: users._id}, "secret", { expiresIn: 86400 })
-
+    
     if (doc) {
-      res.status(200).send({auth: true, token: token});
+      res.status(200).send({auth: true, token: token, name: doc.fullname, email: doc.email});
     } else {
       res.send("failed")
     }

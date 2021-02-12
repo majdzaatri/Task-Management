@@ -6,6 +6,7 @@ export default function Task({
   selected,
   id,
   changeColor,
+  toggleSidebar,
   title,
   name,
   taskPriority,
@@ -24,7 +25,7 @@ export default function Task({
     );
 
   return (
-    <div style={{backgroundColor: category ,borderRadius: 10}}>
+    <div style={{backgroundColor: category ,borderRadius: 10}} onClick={toggleSidebar}>
       <div className="block" onClick={() => {
         changeColor(id,title,name,taskPriority,category,date,status,categoryDetails);
       }}>

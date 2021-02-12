@@ -6,10 +6,11 @@ import SearchBar from "./SearchBar"
 import Sort from './Sort'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row} from "react-bootstrap"
+import { FaTimes, FaEdit, FaPlus, FaTrash} from 'react-icons/fa';
 
 
 
-const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
+const TasksList = ({setSelectedTask, toggleSidebar, TasksData, toggleEdit, toggleDelete, isEdit, isAdd, setIsAdd}) => {
 
     const [selected, setSelected] = useState("")
     const [input, setInput] = useState("")
@@ -20,22 +21,6 @@ const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
     const changeOption = () => {
         setIsAsc(!isAsc);
     }
-
-
-// const getTasks = () => {
-// axios.get('/get_task_detail')
-// .then((response) => {
-//   setTasksData(response.data)
-//   console.log(response.data)
-// }).catch(() => {
-//   alert('Error retrieving data!!!');
-// });
-// }
-
-// useEffect(() =>{
-//   getTasks();
-// }, [])
-
 
     function changeColor(id,title,name,taskPriority,category,date,status,categoryDetails) {
       setSelected(id);
@@ -111,6 +96,29 @@ const TasksList = ({setSelectedTask, toggleSidebar, TasksData}) => {
           />
         ))}
         </div>
+        <Row className="mx-auto justify-content-center">
+        {(!isEdit)?
+            <div className="edit-button align-items-center mt-2 mx-2 d-lg-none d-md-block d-xl-none"> 
+              <FaEdit size="md" color="white" className="edit-button-icon" onClick={() => {
+                toggleSidebar()
+                toggleEdit()}
+                } />
+            </div>
+             : <div className="edit-button align-items-center mt-2 mx-2 d-lg-none d-md-block d-xl-none">
+                 <FaTimes size="md" color="white" className="edit-button-icon" onClick={() => {
+                   toggleEdit()
+                   }} />
+              </div>
+          }
+          <div className="edit-button align-items-center  mt-2 mx-2 d-lg-none d-md-block d-xl-none">
+            <FaPlus size="md" color="white" className="edit-button-icon" onClick={() => {
+              setIsAdd(!isAdd);
+              }} />
+          </div>
+          <div className="delete-button align-items-center  mt-2 mx-2 d-lg-none d-md-block d-xl-none"> 
+            <FaTrash size="md" color="white" className="delete-button-icon" onClick={toggleDelete} /> 
+          </div>
+        </Row>
       </div>
     );
 }

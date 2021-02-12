@@ -3,17 +3,27 @@ import { FaTimes } from "react-icons/fa"
 import '../App.css';
 import EditableTaskDescription from './EditableTaskDescription'
 
-const Sidebar = ({isOpen, selectedTask, toggleSidebar}) => {
+const Sidebar = ({isOpen, selectedTask, toggleSidebar, setIsEdit, setTasksCount, tasksCount, setSelectedTask, setIsDeleteTask, userEmail, isEdit}) => {
   
   return <aside className={`sidebar ${isOpen?"show-sidebar":"hide-sidebar"}`}>
-    <button className="close-btn" onClick={toggleSidebar}>
+    <button className="close-btn" onClick={() => {
+      if(isEdit){setIsEdit(!isEdit)}
+      toggleSidebar()
+      }}>
       <FaTimes />
     </button>
-    <div >
-      <div onClick={toggleSidebar}>
-        <EditableTaskDescription selectedTask={selectedTask} isEdit={false} newTask={false}/>
-      </div>
-    </div>
+    <EditableTaskDescription
+     style={{padding: "0"}} 
+     selectedTask={selectedTask} 
+     isEdit={isEdit} 
+     newTask={false}
+     setIsEdit= {setIsEdit}
+     setTasksCount = {setTasksCount}
+     tasksCount = {tasksCount} 
+     selectedTask={selectedTask}
+     setSelectedTask = {setSelectedTask}
+     setIsDeleteTask = {setIsDeleteTask}
+     userEmail = {userEmail} />
   </aside>
 }
 
