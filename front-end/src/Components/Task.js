@@ -38,7 +38,7 @@ export default function Task({
         >
           <h1>{title}</h1>
           {/* <h3>{name}</h3> */}
-          <div>{stars}<br></br> {dateFormat(new Date(date), "dd/mm/yyyy")}</div>
+          <div><br></br> <h5>{dateFormat(new Date(date), "dd/mm/yyyy")}</h5></div>
         </div>
       </div>
     </div>

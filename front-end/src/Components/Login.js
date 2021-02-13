@@ -32,7 +32,7 @@ const Login = (props) => {
   }
 
   const handlePassowrd = e => {
-    setIisValidPassword(user.password.length >5 ? true : false) 
+    setIisValidPassword(user.password.length >4 ? true : false) 
    }
 
   const  [isValidEmail, setIsValidEmail] = useState(true)

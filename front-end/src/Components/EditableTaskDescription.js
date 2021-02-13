@@ -84,7 +84,7 @@ const EditableTaskDescription = ({isEdit, deleteTask,selectedTask, setIsEdit,new
       const submit = () => {
         confirmAlert({
         //   title: 'Confirm to submit',
-          message: 'Are you sure you want to delete task"' + selectedTask.title + '"?',
+          message: 'Are you sure you want to delete task "' + selectedTask.title + '"?',
           buttons: [
             {
               label: 'Yes',

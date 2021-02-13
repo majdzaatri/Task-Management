@@ -24,10 +24,10 @@ const Navbar = ({userName}) => {
 
   return <nav className="navbar">
     <Row className="w-100 align-items-center">
-      <Col lg={2} style={{marginBottom: "-80px"}}><img src={logo} /></Col>
-      <Col style={{color: "white", fontSize: "x-large", fontWeight: "bold"}}>
+      <Col lg={2} style={{width:'240px'}}> <img style={{width:'240px'}} src={logo} /></Col>
+      <Col style={{color: "white", fontSize: "x-large", fontWeight: "bold"  , marginRight:"-20px"}}>
         <Row className="justify-content-end">
-            Hello, {userName}
+            Hello, {userName.split(" ")[0]}
             <button className="ml-5" style={{borderRadius: "5rem", borderColor: "white", backgroundColor: "#3f72af", color: "white"}} onClick={handleSubmit}>
               Logout
             </button>
